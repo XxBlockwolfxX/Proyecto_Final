@@ -5,10 +5,10 @@ class Clase_Conectar
 {
     public $conexion;
     protected $db;
-    private $server = "proyecto";
+    private $server = "localhost";
     private $usu = "root";
-    private $clave = "";
-    private $base = "quinto";
+    private $clave = "";  //contrasenia super usuario en mamp
+    private $base = "proyecto";
 
     public function Procedimiento_Conectar()
     {
