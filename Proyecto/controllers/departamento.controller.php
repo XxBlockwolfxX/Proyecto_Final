@@ -1,42 +1,41 @@
 <?php
-
+require_once('../config/conexion.php');
 require_once('../models/departamento.model.php');
 $departamento = new Clase_Departamento();
 
+header('Content-Type: application/json');  // Asegúrate de que la respuesta sea JSON
+
 switch ($_GET['op']) {
-    case "todos":
-        $datos = array();
-        $datos = $departamento->todos();
-        $todos = array();
-        while ($fila = mysqli_fetch_assoc($datos)) {
-            $todos[] = $fila;
-        }
-        echo json_encode($todos);
-        break;
     case "uno":
-        $id = $_POST["id"];
-        $datos = array();
+        $id = json_decode(file_get_contents("php://input"))->id;
         $datos = $departamento->uno($id);
-        echo json_encode(mysqli_fetch_assoc($datos));
+        $departamentoData = mysqli_fetch_assoc($datos);
+        if ($departamentoData) {
+            echo json_encode($departamentoData);
+        } else {
+            echo json_encode(["success" => false, "message" => "Departamento no encontrado"]);
+        }
         break;
     case "insertar":
-        $nombre_departamento = $_POST["nombre_departamento"];
-        $datos = array();
-        $datos = $departamento->insertar($nombre_departamento);
-        echo json_encode($datos);
+        $data = json_decode(file_get_contents("php://input"), true);
+        $nombre_departamento = $data["nombre_departamento"];
+        $result = $departamento->insertar($nombre_departamento);
+        echo json_encode(["success" => $result == "ok"]);
         break;
     case "actualizar":
-        $id = $_POST["id"];
-        $nombre_departamento = $_POST["nombre_departamento"];
-        $datos = array();
-        $datos = $departamento->actualizar($id, $nombre_departamento);
-        echo json_encode($datos);
+        $id = $_GET['id'];
+        $data = json_decode(file_get_contents("php://input"), true);
+        $nombre_departamento = $data["nombre_departamento"];
+        $result = $departamento->actualizar($id, $nombre_departamento);
+        echo json_encode(["success" => $result == "ok"]);
         break;
     case "eliminar":
-        $id = $_POST["id"];
-        $datos = array();
-        $datos = $departamento->eliminar($id);
-        echo json_encode($datos);
+        $id = $_GET['id'];
+        $result = $departamento->eliminar($id);
+        echo json_encode(["success" => $result == "ok"]);
+        break;
+    default:
+        echo json_encode(["success" => false, "message" => "Operación no válida"]);
         break;
 }
 ?>
