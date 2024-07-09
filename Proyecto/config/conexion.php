@@ -5,9 +5,9 @@ class Clase_Conectar
 {
     public $conexion;
     protected $db;
-    private $server = "localhost";
+    private $server = "proyecto";
     private $usu = "root";
-    private $clave = "";  //contrasenia super usuario en mamp
+    private $clave = "";
     private $base = "quinto";
 
     public function Procedimiento_Conectar()
@@ -20,10 +20,3 @@ class Clase_Conectar
         return $this->conexion;
     }
 }
-/*
-Angular
-
-Backend  => PHP
-FrontEnd => PHP - Html - CSS - Bootstrap - Javascript - Jquery
-
-*/
