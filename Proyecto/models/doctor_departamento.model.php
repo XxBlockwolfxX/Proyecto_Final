@@ -8,22 +8,22 @@ class Clase_Doctor_Departamento {
     }
 
     public function uno($id) {
-        $query = "SELECT * FROM doctor_departamento WHERE id_doctor_departamento = '$id'";
+        $query = "SELECT * FROM doctores_departamentos WHERE id_doctor_departamento = '$id'";
         return mysqli_query($this->conn, $query);
     }
 
     public function insertar($id_doctor, $id_departamento) {
-        $query = "INSERT INTO doctor_departamento (id_doctor, id_departamento) VALUES ('$id_doctor', '$id_departamento')";
+        $query = "INSERT INTO doctores_departamentos (id_doctor, id_departamento) VALUES ('$id_doctor', '$id_departamento')";
         return mysqli_query($this->conn, $query) ? "ok" : "error";
     }
 
     public function actualizar($id, $id_doctor, $id_departamento) {
-        $query = "UPDATE doctor_departamento SET id_doctor = '$id_doctor', id_departamento = '$id_departamento' WHERE id_doctor_departamento = '$id'";
+        $query = "UPDATE doctores_departamentos SET id_doctor = '$id_doctor', id_departamento = '$id_departamento' WHERE id_doctor_departamento = '$id'";
         return mysqli_query($this->conn, $query) ? "ok" : "error";
     }
 
     public function eliminar($id) {
-        $query = "DELETE FROM doctor_departamento WHERE id_doctor_departamento = '$id'";
+        $query = "DELETE FROM doctores_departamentos WHERE id_doctor_departamento = '$id'";
         return mysqli_query($this->conn, $query) ? "ok" : "error";
     }
 }
