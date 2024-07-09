@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Listado de Pacientes</h1>
-    <a href="/Proyecto/Proyecto/views/paciente/form.php">Insertar Paciente</a>
+    <a href="form.php">Insertar Paciente</a>
     <?php
     require_once(__DIR__ . '/../../controllers/paciente.controller.php');
     $paciente = new Clase_Paciente();
