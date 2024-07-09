@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Formulario de Cita</h1>
-    <form action="../../controllers/cita.controller.php?op=insertar" method="post">
+    <form id="citaForm">
         <label for="id_paciente">ID Paciente:</label>
         <input type="number" id="id_paciente" name="id_paciente" required>
         <br>
@@ -19,7 +19,9 @@
         <label for="motivo">Motivo:</label>
         <input type="text" id="motivo" name="motivo" required>
         <br>
-        <input type="submit" value="Guardar">
+        <button type="submit" id="submitForm">Guardar</button>
     </form>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="../../public/js/main.js"></script>
 </body>
 </html>
