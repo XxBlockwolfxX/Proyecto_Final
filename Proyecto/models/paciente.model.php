@@ -24,8 +24,8 @@ class Clase_Paciente {
         return $resultado;
     }
 
-    public function insertar($nombre, $apellido, $edad, $direccion) {
-        $cadena = "INSERT INTO `pacientes`(`nombre`, `apellido`, `edad`, `direccion`) VALUES ('$nombre','$apellido',$edad,'$direccion')";
+    public function insertar($nombre, $apellido, $fecha_nacimiento) {
+        $cadena = "INSERT INTO `pacientes`(`nombre`, `apellido`, `fecha_nacimiento`) VALUES ('$nombre','$apellido','$fecha_nacimiento')";
         if (mysqli_query($this->con, $cadena)) {
             return "ok";
         } else {
@@ -33,8 +33,8 @@ class Clase_Paciente {
         }
     }
 
-    public function actualizar($id, $nombre, $apellido, $edad, $direccion) {
-        $cadena = "UPDATE `pacientes` SET `nombre`='$nombre',`apellido`='$apellido',`edad`=$edad,`direccion`='$direccion' WHERE `id_paciente`=$id";
+    public function actualizar($id, $nombre, $apellido, $fecha_nacimiento) {
+        $cadena = "UPDATE `pacientes` SET `nombre`='$nombre',`apellido`='$apellido',`fecha_nacimiento`='$fecha_nacimiento' WHERE `id_paciente`=$id";
         if (mysqli_query($this->con, $cadena)) {
             return "ok";
         } else {

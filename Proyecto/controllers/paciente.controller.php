@@ -28,20 +28,18 @@ switch ($op) {
     case "insertar":
         $nombre = $_POST["nombre"];
         $apellido = $_POST["apellido"];
-        $edad = $_POST["edad"];
-        $direccion = $_POST["direccion"];
+        $fecha_nacimiento = $_POST["fecha_nacimiento"];
         $datos = array();
-        $datos = $paciente->insertar($nombre, $apellido, $edad, $direccion);
+        $datos = $paciente->insertar($nombre, $apellido, $fecha_nacimiento);
         echo json_encode($datos);
         break;
     case "actualizar":
         $id = $_POST["id"];
         $nombre = $_POST["nombre"];
         $apellido = $_POST["apellido"];
-        $edad = $_POST["edad"];
-        $direccion = $_POST["direccion"];
+        $fecha_nacimiento = $_POST["fecha_nacimiento"];
         $datos = array();
-        $datos = $paciente->actualizar($id, $nombre, $apellido, $edad, $direccion);
+        $datos = $paciente->actualizar($id, $nombre, $apellido, $fecha_nacimiento);
         echo json_encode($datos);
         break;
     case "eliminar":
@@ -61,7 +59,7 @@ switch ($op) {
         echo json_encode($todos);
         break;
     default:
-        echo json_encode(array("error" => "operacion no valida"));
+     
         break;
 }
 ?>
