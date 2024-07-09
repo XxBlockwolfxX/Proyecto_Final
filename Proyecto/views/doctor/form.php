@@ -6,14 +6,16 @@
 </head>
 <body>
     <h1>Formulario de Doctor</h1>
-    <form action="../../controllers/doctor.controller.php?op=insertar" method="post">
+    <form id="doctorForm">
         <label for="nombre_doctor">Nombre:</label>
         <input type="text" id="nombre_doctor" name="nombre_doctor" required>
         <br>
         <label for="especialidad">Especialidad:</label>
         <input type="text" id="especialidad" name="especialidad" required>
         <br>
-        <input type="submit" value="Guardar">
+        <button type="submit" id="submitDoctorForm">Guardar</button>
     </form>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="/Proyecto/Proyecto/public/js/doctores.js"></script>
 </body>
 </html>

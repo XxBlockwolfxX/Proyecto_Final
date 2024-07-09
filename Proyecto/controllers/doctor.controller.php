@@ -1,44 +1,43 @@
 <?php
-
+require_once('../config/conexion.php');
 require_once('../models/doctor.model.php');
 $doctor = new Clase_Doctor();
 
+header('Content-Type: application/json');  // Asegúrate de que la respuesta sea JSON
+
 switch ($_GET['op']) {
-    case "todos":
-        $datos = array();
-        $datos = $doctor->todos();
-        $todos = array();
-        while ($fila = mysqli_fetch_assoc($datos)) {
-            $todos[] = $fila;
-        }
-        echo json_encode($todos);
-        break;
     case "uno":
-        $id = $_POST["id"];
-        $datos = array();
+        $id = json_decode(file_get_contents("php://input"))->id;
         $datos = $doctor->uno($id);
-        echo json_encode(mysqli_fetch_assoc($datos));
+        $doctorData = mysqli_fetch_assoc($datos);
+        if ($doctorData) {
+            echo json_encode($doctorData);
+        } else {
+            echo json_encode(["success" => false, "message" => "Doctor no encontrado"]);
+        }
         break;
     case "insertar":
-        $nombre_doctor = $_POST["nombre_doctor"];
-        $especialidad = $_POST["especialidad"];
-        $datos = array();
-        $datos = $doctor->insertar($nombre_doctor, $especialidad);
-        echo json_encode($datos);
+        $data = json_decode(file_get_contents("php://input"), true);
+        $nombre_doctor = $data["nombre_doctor"];
+        $especialidad = $data["especialidad"];
+        $result = $doctor->insertar($nombre_doctor, $especialidad);
+        echo json_encode(["success" => $result == "ok"]);
         break;
     case "actualizar":
-        $id = $_POST["id"];
-        $nombre_doctor = $_POST["nombre_doctor"];
-        $especialidad = $_POST["especialidad"];
-        $datos = array();
-        $datos = $doctor->actualizar($id, $nombre_doctor, $especialidad);
-        echo json_encode($datos);
+        $id = $_GET['id'];
+        $data = json_decode(file_get_contents("php://input"), true);
+        $nombre_doctor = $data["nombre_doctor"];
+        $especialidad = $data["especialidad"];
+        $result = $doctor->actualizar($id, $nombre_doctor, $especialidad);
+        echo json_encode(["success" => $result == "ok"]);
         break;
     case "eliminar":
-        $id = $_POST["id"];
-        $datos = array();
-        $datos = $doctor->eliminar($id);
-        echo json_encode($datos);
+        $id = $_GET['id'];
+        $result = $doctor->eliminar($id);
+        echo json_encode(["success" => $result == "ok"]);
+        break;
+    default:
+        echo json_encode(["success" => false, "message" => "Operación no válida"]);
         break;
 }
 ?>
