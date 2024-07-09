@@ -6,12 +6,6 @@
 </head>
 <body>
     <h1>Listado de Pacientes</h1>
-    <a href="/Proyecto/Proyecto/views/paciente/form.php">Insertar Paciente</a>
-    <?php
-    require_once(__DIR__ . '/../../controllers/paciente.controller.php');
-    $paciente = new Clase_Paciente();
-    $datos = $paciente->todos();
-    ?>
     <table border="1">
         <thead>
             <tr>
@@ -23,19 +17,35 @@
             </tr>
         </thead>
         <tbody>
-            <?php while ($fila = mysqli_fetch_assoc($datos)) { ?>
+            <?php
+            // Ajusta la ruta según la estructura de tu proyecto
+            $path = realpath(dirname(__FILE__) . '/../../config/conexion.php');
+            if (file_exists($path)) {
+                require_once($path);
+            } else {
+                die("Error: El archivo de conexión no se encontró en la ruta especificada.");
+            }
+            
+            $con = new Clase_Conectar();
+            $con = $con->Procedimiento_Conectar();
+            $query = "SELECT * FROM pacientes";
+            $result = mysqli_query($con, $query);
+            
+            while ($fila = mysqli_fetch_assoc($result)) { ?>
                 <tr>
                     <td><?php echo $fila['id_paciente']; ?></td>
                     <td><?php echo $fila['nombre']; ?></td>
                     <td><?php echo $fila['apellido']; ?></td>
                     <td><?php echo $fila['fecha_nacimiento']; ?></td>
                     <td>
-                        <a href="form.php?id=<?php echo $fila['id_paciente']; ?>">Editar</a>
-                        <a href="../../controllers/paciente.controller.php?op=eliminar&id=<?php echo $fila['id_paciente']; ?>">Eliminar</a>
+                        <button class="editPatient" data-id="<?php echo $fila['id_paciente']; ?>">Editar</button>
+                        <button class="deletePatient" data-id="<?php echo $fila['id_paciente']; ?>">Eliminar</button>
                     </td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="/Proyecto/Proyecto/public/js/pacientes.js"></script>
 </body>
 </html>

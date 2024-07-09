@@ -1,65 +1,45 @@
 <?php
-require_once(__DIR__ . '/../models/paciente.model.php');
+require_once('../config/conexion.php');
+require_once('../models/paciente.model.php');
 $paciente = new Clase_Paciente();
 
-$op = isset($_GET['op']) ? $_GET['op'] : null;
+header('Content-Type: application/json');  // Asegúrate de que la respuesta sea JSON
 
-switch ($op) {
-    case "probar":
-        $datos = array();
-        $datos = $paciente->probar();
-        echo json_encode($datos);
-        break;
-    case "todos":
-        $datos = array();
-        $datos = $paciente->todos();
-        $todos = array();
-        while ($fila = mysqli_fetch_assoc($datos)) {
-            $todos[] = $fila;
-        }
-        echo json_encode($todos);
-        break;
+switch ($_GET['op']) {
     case "uno":
-        $id = $_POST["id"];
-        $datos = array();
+        $id = json_decode(file_get_contents("php://input"))->id;
         $datos = $paciente->uno($id);
-        echo json_encode(mysqli_fetch_assoc($datos));
+        $pacienteData = mysqli_fetch_assoc($datos);
+        if ($pacienteData) {
+            echo json_encode($pacienteData);
+        } else {
+            echo json_encode(["success" => false, "message" => "Paciente no encontrado"]);
+        }
         break;
     case "insertar":
-        $nombre = $_POST["nombre"];
-        $apellido = $_POST["apellido"];
-        $fecha_nacimiento = $_POST["fecha_nacimiento"];
-        $datos = array();
-        $datos = $paciente->insertar($nombre, $apellido, $fecha_nacimiento);
-        echo json_encode($datos);
+        $data = json_decode(file_get_contents("php://input"), true);
+        $nombre = $data["nombre"];
+        $apellido = $data["apellido"];
+        $fecha_nacimiento = $data["fecha_nacimiento"];
+        $result = $paciente->insertar($nombre, $apellido, $fecha_nacimiento);
+        echo json_encode(["success" => $result == "ok"]);
         break;
     case "actualizar":
-        $id = $_POST["id"];
-        $nombre = $_POST["nombre"];
-        $apellido = $_POST["apellido"];
-        $fecha_nacimiento = $_POST["fecha_nacimiento"];
-        $datos = array();
-        $datos = $paciente->actualizar($id, $nombre, $apellido, $fecha_nacimiento);
-        echo json_encode($datos);
+        $id = $_GET['id'];
+        $data = json_decode(file_get_contents("php://input"), true);
+        $nombre = $data["nombre"];
+        $apellido = $data["apellido"];
+        $fecha_nacimiento = $data["fecha_nacimiento"];
+        $result = $paciente->actualizar($id, $nombre, $apellido, $fecha_nacimiento);
+        echo json_encode(["success" => $result == "ok"]);
         break;
     case "eliminar":
-        $id = $_POST["id"];
-        $datos = array();
-        $datos = $paciente->eliminar($id);
-        echo json_encode($datos);
-        break;
-    case "buscarXNombre":
-        $nombre = $_POST["nombre"];
-        $datos = array();
-        $datos = $paciente->buscarXNombre($nombre);
-        $todos = array();
-        while ($fila = mysqli_fetch_assoc($datos)) {
-            $todos[] = $fila;
-        }
-        echo json_encode($todos);
+        $id = $_GET['id'];
+        $result = $paciente->eliminar($id);
+        echo json_encode(["success" => $result == "ok"]);
         break;
     default:
-      
+        echo json_encode(["success" => false, "message" => "Operación no válida"]);
         break;
 }
 ?>
