@@ -5,9 +5,13 @@ document.addEventListener("DOMContentLoaded", function () {
         submitButton.addEventListener("click", function (e) {
             e.preventDefault();
             var id = this.dataset.id;
+            var nombreInput = document.getElementById("nombre_departamento");
+            if (!nombreInput) {
+                console.error("Elementos del formulario no encontrados");
+                return;
+            }
             var data = {
-                nombre: document.getElementById("nombre").value,
-                descripcion: document.getElementById("descripcion").value
+                nombre_departamento: nombreInput.value
             };
             
             var url = id ? `/Proyecto/Proyecto/controllers/departamento.controller.php?op=actualizar&id=${id}` : "/Proyecto/Proyecto/controllers/departamento.controller.php?op=insertar";
@@ -19,20 +23,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: JSON.stringify(data),
             })
-            .then(response => response.text())  // Cambiado a .text() para ver la respuesta completa
-            .then(text => {
-                console.log(text);  // Mostrar la respuesta completa en la consola
-                try {
-                    var data = JSON.parse(text);
-                    if (data.success) {
-                        alert(`Departamento ${id ? 'actualizado' : 'guardado'} exitosamente!`);
-                        location.reload();
-                    } else {
-                        alert(`Error al ${id ? 'actualizar' : 'guardar'} el departamento.`);
-                    }
-                } catch (error) {
-                    console.error("Error de parseo JSON:", error);
-                    console.error("Respuesta del servidor:", text);
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`Departamento ${id ? 'actualizado' : 'guardado'} exitosamente!`);
+                    location.reload();
+                } else {
+                    alert(`Error al ${id ? 'actualizar' : 'guardar'} el departamento.`);
                 }
             })
             .catch(error => console.error("Error:", error));
@@ -49,28 +46,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: JSON.stringify({ id: id }),
             })
-            .then(response => response.text())  // Cambiado a .text() para ver la respuesta completa
-            .then(text => {
-                console.log(text);  // Mostrar la respuesta completa en la consola
-                try {
-                    var data = JSON.parse(text);
-                    if (data) {
-                        var nombreInput = document.getElementById("nombre");
-                        var descripcionInput = document.getElementById("descripcion");
-                        
-                        if (nombreInput && descripcionInput) {
-                            nombreInput.value = data.nombre;
-                            descripcionInput.value = data.descripcion;
-                            document.getElementById("submitDepartmentForm").dataset.id = id;
-                        } else {
-                            console.error("Elementos del formulario no encontrados");
-                        }
-                    } else {
-                        alert("Error al cargar los datos del departamento.");
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    var nombreInput = document.getElementById("nombre_departamento");
+                    if (!nombreInput) {
+                        console.error("Elementos del formulario no encontrados");
+                        return;
                     }
-                } catch (error) {
-                    console.error("Error de parseo JSON:", error);
-                    console.error("Respuesta del servidor:", text);
+                    nombreInput.value = data.nombre_departamento;
+                    document.getElementById("submitDepartmentForm").dataset.id = id;
+                } else {
+                    alert("Error al cargar los datos del departamento.");
                 }
             })
             .catch(error => console.error("Error:", error));
@@ -86,20 +73,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     "Content-Type": "application/json",
                 }
             })
-            .then(response => response.text())  // Cambiado a .text() para ver la respuesta completa
-            .then(text => {
-                console.log(text);  // Mostrar la respuesta completa en la consola
-                try {
-                    var data = JSON.parse(text);
-                    if (data.success) {
-                        alert("Departamento eliminado exitosamente!");
-                        location.reload();
-                    } else {
-                        alert("Error al eliminar el departamento.");
-                    }
-                } catch (error) {
-                    console.error("Error de parseo JSON:", error);
-                    console.error("Respuesta del servidor:", text);
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Departamento eliminado exitosamente!");
+                    location.reload();
+                } else {
+                    alert("Error al eliminar el departamento.");
                 }
             })
             .catch(error => console.error("Error:", error));

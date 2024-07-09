@@ -6,9 +6,6 @@ $departamento = new Clase_Departamento();
 header('Content-Type: application/json');  // Asegúrate de que la respuesta sea JSON
 
 switch ($_GET['op']) {
-    case "todos":
-        // Código para obtener todos los departamentos
-        break;
     case "uno":
         $id = json_decode(file_get_contents("php://input"))->id;
         $datos = $departamento->uno($id);
@@ -21,17 +18,15 @@ switch ($_GET['op']) {
         break;
     case "insertar":
         $data = json_decode(file_get_contents("php://input"), true);
-        $nombre = $data["nombre"];
-        $descripcion = $data["descripcion"];
-        $result = $departamento->insertar($nombre, $descripcion);
+        $nombre_departamento = $data["nombre_departamento"];
+        $result = $departamento->insertar($nombre_departamento);
         echo json_encode(["success" => $result == "ok"]);
         break;
     case "actualizar":
         $id = $_GET['id'];
         $data = json_decode(file_get_contents("php://input"), true);
-        $nombre = $data["nombre"];
-        $descripcion = $data["descripcion"];
-        $result = $departamento->actualizar($id, $nombre, $descripcion);
+        $nombre_departamento = $data["nombre_departamento"];
+        $result = $departamento->actualizar($id, $nombre_departamento);
         echo json_encode(["success" => $result == "ok"]);
         break;
     case "eliminar":

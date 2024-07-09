@@ -11,7 +11,6 @@
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
-                <th>Descripción</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -27,14 +26,13 @@
             
             $con = new Clase_Conectar();
             $con = $con->Procedimiento_Conectar();
-            $query = "SELECT * FROM departamentos";
+            $query = "SELECT id_departamento, nombre_departamento FROM departamentos";  // Asegúrate de que la columna "nombre_departamento" está seleccionada
             $result = mysqli_query($con, $query);
             
             while ($fila = mysqli_fetch_assoc($result)) { ?>
                 <tr>
                     <td><?php echo $fila['id_departamento']; ?></td>
-                    <td><?php echo $fila['nombre']; ?></td>
-                    <td><?php echo $fila['descripcion']; ?></td>
+                    <td><?php echo $fila['nombre_departamento']; ?></td>
                     <td>
                         <button class="editDepartment" data-id="<?php echo $fila['id_departamento']; ?>">Editar</button>
                         <button class="deleteDepartment" data-id="<?php echo $fila['id_departamento']; ?>">Eliminar</button>
@@ -46,16 +44,13 @@
 
     <h2>Formulario de Departamento</h2>
     <form id="departmentForm">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
-        <br>
-        <label for="descripcion">Descripción:</label>
-        <input type="text" id="descripcion" name="descripcion" required>
+        <label for="nombre_departamento">Nombre:</label>
+        <input type="text" id="nombre_departamento" name="nombre_departamento" required>
         <br>
         <button type="submit" id="submitDepartmentForm">Guardar</button>
     </form>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="../../public/js/departamentos.js"></script>
+    <script src="/Proyecto/Proyecto/public/js/departamentos.js"></script>
 </body>
 </html>

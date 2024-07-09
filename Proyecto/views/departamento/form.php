@@ -16,6 +16,6 @@
         <button type="submit" id="submitDepartmentForm">Guardar</button>
     </form>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="../../public/js/departamentos.js"></script>
+    <script src="/Proyecto/Proyecto/public/js/departamentos.js"></script>
 </body>
 </html>
