@@ -5,7 +5,7 @@
     <title>Listado de Doctor-Departamento</title>
 </head>
 <body>
-    <h1>Listado de Citas</h1>
+    <h1>Listado de Doctor-Departamento</h1>
     <table border="1">
         <thead>
             <tr>
