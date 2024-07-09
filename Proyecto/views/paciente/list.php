@@ -45,6 +45,21 @@
             <?php } ?>
         </tbody>
     </table>
+
+    <h2>Formulario de Paciente</h2>
+    <form id="patientForm">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+        <br>
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" required>
+        <br>
+        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+        <br>
+        <button type="submit" id="submitPatientForm">Guardar</button>
+    </form>
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="/Proyecto/Proyecto/public/js/pacientes.js"></script>
 </body>
