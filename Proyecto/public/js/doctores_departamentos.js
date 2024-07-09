@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 id_doctor: document.getElementById("id_doctor") ? document.getElementById("id_doctor").value : null,
                 id_departamento: document.getElementById("id_departamento") ? document.getElementById("id_departamento").value : null
             };
-
-            var url = id ? /Proyecto/Proyecto/controllers/doctor_departamento.controllers.php?op=actualizar&id=${id} : "/Proyecto/Proyecto/controllers/doctor_departamento.controllers.php?op=insertar";
-
+            
+            var url = id ? `/Proyecto/Proyecto/controllers/doctor_departamento.controllers.php?op=actualizar&id=${id}` : "/Proyecto/Proyecto/controllers/doctor_departamento.controllers.php?op=insertar";
+            
             fetch(url, {
                 method: "POST",
                 headers: {
@@ -23,10 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert(Cita ${id ? 'actualizada' : 'guardada'} exitosamente!);
+                    alert(`Cita ${id ? 'actualizada' : 'guardada'} exitosamente!`);
                     location.reload();
                 } else {
-                    alert(Error al ${id ? 'actualizar' : 'guardar'} la cita.);
+                    alert(`Error al ${id ? 'actualizar' : 'guardar'} la cita.`);
                 }
             })
             .catch(error => console.error("Error:", error));
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".deleteDocDepa").forEach(function(button) {
         button.addEventListener("click", function () {
             var id = this.dataset.id;
-            fetch(/Proyecto/Proyecto/controllers/doctor_departamento.controllers.php?op=eliminar&id=${id}, {
+            fetch(`/Proyecto/Proyecto/controllers/doctor_departamento.controllers.php?op=eliminar&id=${id}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
