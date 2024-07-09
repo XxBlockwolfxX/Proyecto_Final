@@ -61,7 +61,7 @@ switch ($op) {
         echo json_encode($todos);
         break;
     default:
-        echo json_encode(array("error" => "Operación no válida"));
+        echo json_encode(array("error" => "operacion no valida"));
         break;
 }
 ?>
