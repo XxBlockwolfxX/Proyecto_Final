@@ -1,13 +1,12 @@
 <?php
 
-//POO
 class Clase_Conectar
 {
     public $conexion;
     protected $db;
     private $server = "localhost";
     private $usu = "root";
-    private $clave = "";  //contrasenia super usuario en mamp
+    private $clave = "";
     private $base = "proyecto";
 
     public function Procedimiento_Conectar()
