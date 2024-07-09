@@ -5,18 +5,41 @@
     <title>Formulario de Doctor-Departamento</title>
 </head>
 <body>
-    <h1>Formulario de Cita</h1>
-    <form id="DoctorDepaForm">
-        <label for="id_doctor_departamento">ID:</label>
-        <input type="text" id="id_doctor_departamento" name="id_doctor_departamento" required>
+    <h1>Formulario de Doctor-Departamento</h1>
+    <form id="docDepaForm">
+        <input type="hidden" id="iddoctordepartamento" name="id_doctor_departamento">
+        <label for="id_doctor">Doctor:</label>
+        <select id="id_doctor" name="id_doctor" required>
+            <?php
+            $path = realpath(dirname(__FILE__) . '/../../config/conexion.php');
+            if (file_exists($path)) {
+                require_once($path);
+            } else {
+                die("Error: El archivo de conexión no se encontró en la ruta especificada.");
+            }
+
+            $con = new Clase_Conectar();
+            $con = $con->Procedimiento_Conectar();
+            $queryDoctores = "SELECT id_doctor, nombre FROM doctores";
+            $resultDoctores = mysqli_query($con, $queryDoctores);
+            while ($doctor = mysqli_fetch_assoc($resultDoctores)) {
+                echo "<option value='{$doctor['id_doctor']}'>{$doctor['nombre']}</option>";
+            }
+            ?>
+        </select>
         <br>
-        <label for="id_doctor">ID Doctor:</label>
-        <input type="text" id="id_doctor" name="id_doctor" required>
+        <label for="id_departamento">Departamento:</label>
+        <select id="id_departamento" name="id_departamento" required>
+            <?php
+            $queryDepartamentos = "SELECT id_departamento, nombre FROM departamentos";
+            $resultDepartamentos = mysqli_query($con, $queryDepartamentos);
+            while ($departamento = mysqli_fetch_assoc($resultDepartamentos)) {
+                echo "<option value='{$departamento['id_departamento']}'>{$departamento['nombre']}</option>";
+            }
+            ?>
+        </select>
         <br>
-        <label for="id_departamento">ID Departamento:</label>
-        <input type="date" id="id_departamento" name="id_departamento" required>
-        <br>
-        <button type="submit" id="submitDoctorDepaForm">Guardar</button>
+        <button type="submit" id="submitDocDepaForm">Guardar</button>
     </form>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="/Proyecto/Proyecto/public/js/doctores_departamentos.js"></script>

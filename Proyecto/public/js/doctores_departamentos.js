@@ -6,13 +6,13 @@ document.addEventListener("DOMContentLoaded", function () {
             e.preventDefault();
             var id = this.dataset.id;
             var data = {
-                id_paciente: document.getElementById("id_doctor_departamento").value,
-                id_doctor: document.getElementById("id_doctor").value,
-                fecha_cita: document.getElementById("id_departamento").value
+                id_doctor_departamento: document.getElementById("id_doctor_departamento") ? document.getElementById("id_doctor_departamento").value : null,
+                id_doctor: document.getElementById("id_doctor") ? document.getElementById("id_doctor").value : null,
+                id_departamento: document.getElementById("id_departamento") ? document.getElementById("id_departamento").value : null
             };
-            
-            var url = id ? `/Proyecto/Proyecto/controllers/doctor_departamento.controllers.php?op=actualizar&id=${id}` : "/Proyecto/Proyecto/controllers/doctor_departamento.controllers.php?op=insertar";
-            
+
+            var url = id ? /Proyecto/Proyecto/controllers/doctor_departamento.controllers.php?op=actualizar&id=${id} : "/Proyecto/Proyecto/controllers/doctor_departamento.controllers.php?op=insertar";
+
             fetch(url, {
                 method: "POST",
                 headers: {
@@ -23,10 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert(`Cita ${id ? 'actualizada' : 'guardada'} exitosamente!`);
+                    alert(Cita ${id ? 'actualizada' : 'guardada'} exitosamente!);
                     location.reload();
                 } else {
-                    alert(`Error al ${id ? 'actualizar' : 'guardar'} la cita.`);
+                    alert(Error al ${id ? 'actualizar' : 'guardar'} la cita.);
                 }
             })
             .catch(error => console.error("Error:", error));
@@ -46,10 +46,10 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 if (data) {
-                    document.getElementById("id_doctor_departamento").value = data.id_doctor_departamento;
-                    document.getElementById("id_doctor").value = data.id_doctor;
-                    document.getElementById("id_departamento").value = data.id_departamento;
-                    document.getElementById("submitCitaForm").dataset.id = id;
+                    if (document.getElementById("id_doctor_departamento")) document.getElementById("id_doctor_departamento").value = data.id_doctor_departamento;
+                    if (document.getElementById("id_doctor")) document.getElementById("id_doctor").value = data.id_doctor;
+                    if (document.getElementById("id_departamento")) document.getElementById("id_departamento").value = data.id_departamento;
+                    document.getElementById("submitDocDepaForm").dataset.id = id;
                 } else {
                     alert("Error al cargar los datos de la cita.");
                 }
@@ -58,10 +58,10 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    document.querySelectorAll(".deleteCita").forEach(function(button) {
+    document.querySelectorAll(".deleteDocDepa").forEach(function(button) {
         button.addEventListener("click", function () {
             var id = this.dataset.id;
-            fetch(`/Proyecto/Proyecto/controllers/doctor_departamento.controllers.php?op=eliminar&id=${id}`, {
+            fetch(/Proyecto/Proyecto/controllers/doctor_departamento.controllers.php?op=eliminar&id=${id}, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
