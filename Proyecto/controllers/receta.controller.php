@@ -1,44 +1,49 @@
 <?php
-
+require_once('../config/conexion.php');
 require_once('../models/receta.model.php');
 $receta = new Clase_Receta();
 
-switch ($_GET['op']) {
-    case "todos":
-        $datos = array();
-        $datos = $receta->todos();
-        $todos = array();
-        while ($fila = mysqli_fetch_assoc($datos)) {
-            $todos[] = $fila;
-        }
-        echo json_encode($todos);
-        break;
-    case "uno":
-        $id = $_POST["id"];
-        $datos = array();
-        $datos = $receta->uno($id);
-        echo json_encode(mysqli_fetch_assoc($datos));
-        break;
-    case "insertar":
-        $id_cita = $_POST["id_cita"];
-        $descripcion = $_POST["descripcion"];
-        $datos = array();
-        $datos = $receta->insertar($id_cita, $descripcion);
-        echo json_encode($datos);
-        break;
-    case "actualizar":
-        $id = $_POST["id"];
-        $id_cita = $_POST["id_cita"];
-        $descripcion = $_POST["descripcion"];
-        $datos = array();
-        $datos = $receta->actualizar($id, $id_cita, $descripcion);
-        echo json_encode($datos);
-        break;
-    case "eliminar":
-        $id = $_POST["id"];
-        $datos = array();
-        $datos = $receta->eliminar($id);
-        echo json_encode($datos);
-        break;
+header('Content-Type: application/json');  // Asegúrate de que la respuesta sea JSON
+
+try {
+    switch ($_GET['op']) {
+        case "uno":
+            $id = json_decode(file_get_contents("php://input"))->id;
+            $datos = $receta->uno($id);
+            $recetaData = mysqli_fetch_assoc($datos);
+            if ($recetaData) {
+                echo json_encode($recetaData);
+            } else {
+                echo json_encode(["success" => false, "message" => "Receta no encontrada"]);
+            }
+            break;
+        case "insertar":
+            $data = json_decode(file_get_contents("php://input"), true);
+            $id_cita = $data["id_cita"];
+            $medicamento = $data["medicamento"];
+            $dosis = $data["dosis"];
+            $result = $receta->insertar($id_cita, $medicamento, $dosis);
+            echo json_encode(["success" => $result == "ok"]);
+            break;
+        case "actualizar":
+            $id = $_GET['id'];
+            $data = json_decode(file_get_contents("php://input"), true);
+            $id_cita = $data["id_cita"];
+            $medicamento = $data["medicamento"];
+            $dosis = $data["dosis"];
+            $result = $receta->actualizar($id, $id_cita, $medicamento, $dosis);
+            echo json_encode(["success" => $result == "ok"]);
+            break;
+        case "eliminar":
+            $id = $_GET['id'];
+            $result = $receta->eliminar($id);
+            echo json_encode(["success" => $result == "ok"]);
+            break;
+        default:
+            echo json_encode(["success" => false, "message" => "Operación no válida"]);
+            break;
+    }
+} catch (Exception $e) {
+    echo json_encode(["success" => false, "message" => $e->getMessage()]);
 }
 ?>
