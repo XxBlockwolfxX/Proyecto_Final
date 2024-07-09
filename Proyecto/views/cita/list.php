@@ -10,8 +10,8 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>ID Paciente</th>
-                <th>ID Doctor</th>
+                <th>Paciente</th>
+                <th>Doctor</th>
                 <th>Fecha de la Cita</th>
                 <th>Motivo</th>
                 <th>Acciones</th>
@@ -29,14 +29,17 @@
 
             $con = new Clase_Conectar();
             $con = $con->Procedimiento_Conectar();
-            $query = "SELECT id_cita, id_paciente, id_doctor, fecha_cita, motivo FROM citas";
+            $query = "SELECT c.id_cita, p.nombre AS nombre_paciente, d.nombre_doctor, c.fecha_cita, c.motivo 
+                      FROM citas c
+                      JOIN pacientes p ON c.id_paciente = p.id_paciente
+                      JOIN doctores d ON c.id_doctor = d.id_doctor";
             $result = mysqli_query($con, $query);
             
             while ($fila = mysqli_fetch_assoc($result)) { ?>
                 <tr>
                     <td><?php echo $fila['id_cita']; ?></td>
-                    <td><?php echo $fila['id_paciente']; ?></td>
-                    <td><?php echo $fila['id_doctor']; ?></td>
+                    <td><?php echo $fila['nombre_paciente']; ?></td>
+                    <td><?php echo $fila['nombre_doctor']; ?></td>
                     <td><?php echo $fila['fecha_cita']; ?></td>
                     <td><?php echo $fila['motivo']; ?></td>
                     <td>
