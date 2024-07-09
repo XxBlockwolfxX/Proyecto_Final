@@ -1,6 +1,6 @@
 <?php
 
-require_once('../models/Paciente.models.php');
+require_once('../models/paciente.model.php');
 $paciente = new Clase_Paciente();
 
 switch ($_GET['op']) {
@@ -9,6 +9,7 @@ switch ($_GET['op']) {
         $datos = $paciente->probar();
         echo json_encode($datos);
         break;
+
     case "todos":
         $datos = array();
         $datos = $paciente->todos();
@@ -18,12 +19,14 @@ switch ($_GET['op']) {
         }
         echo json_encode($todos);
         break;
+
     case "uno":
         $id = $_POST["id"];
         $datos = array();
         $datos = $paciente->uno($id);
         echo json_encode(mysqli_fetch_assoc($datos));
         break;
+
     case "insertar":
         $nombre = $_POST["nombre"];
         $apellido = $_POST["apellido"];
@@ -33,6 +36,7 @@ switch ($_GET['op']) {
         $datos = $paciente->insertar($nombre, $apellido, $edad, $direccion);
         echo json_encode($datos);
         break;
+
     case "actualizar":
         $id = $_POST["id"];
         $nombre = $_POST["nombre"];
@@ -43,12 +47,14 @@ switch ($_GET['op']) {
         $datos = $paciente->actualizar($id, $nombre, $apellido, $edad, $direccion);
         echo json_encode($datos);
         break;
+
     case "eliminar":
         $id = $_POST["id"];
         $datos = array();
         $datos = $paciente->eliminar($id);
         echo json_encode($datos);
         break;
+
     case "buscarXNombre":
         $nombre = $_POST["nombre"];
         $datos = array();
@@ -59,5 +65,6 @@ switch ($_GET['op']) {
         }
         echo json_encode($todos);
         break;
+        
 }
 ?>
