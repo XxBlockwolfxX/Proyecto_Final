@@ -1,6 +1,6 @@
 <?php
 
-require_once('../models/paciente.model.php');
+require_once('../models/Paciente.models.php');
 $paciente = new Clase_Paciente();
 
 switch ($_GET['op']) {
