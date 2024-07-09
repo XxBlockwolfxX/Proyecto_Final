@@ -7,7 +7,7 @@
 <body>
     <h1>Formulario de Doctor-Departamento</h1>
     <form id="docDepaForm">
-        <input type="hidden" id="iddoctordepartamento" name="id_doctor_departamento">
+        <input type="hidden" id="id_doctor_departamento" name="id_doctor_departamento">
         <label for="id_doctor">Doctor:</label>
         <select id="id_doctor" name="id_doctor" required>
             <?php
