@@ -23,10 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert(`Cita ${id ? 'actualizada' : 'guardada'} exitosamente!`);
+                    alert(`Doctor departamento ${id ? 'actualizada' : 'guardada'} exitosamente!`);
                     location.reload();
                 } else {
-                    alert(`Error al ${id ? 'actualizar' : 'guardar'} la cita.`);
+                    alert(`Error al ${id ? 'actualizar' : 'guardar'} el doctor departamento.`);
                 }
             })
             .catch(error => console.error("Error:", error));
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (document.getElementById("id_departamento")) document.getElementById("id_departamento").value = data.id_departamento;
                     document.getElementById("submitDocDepaForm").dataset.id = id;
                 } else {
-                    alert("Error al cargar los datos de la cita.");
+                    alert("Error al cargar los datos del doctor departamento.");
                 }
             })
             .catch(error => console.error("Error:", error));
@@ -70,10 +70,10 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert("Cita eliminada exitosamente!");
+                    alert("Doctor departamento eliminado exitosamente!");
                     location.reload();
                 } else {
-                    alert("Error al eliminar la cita.");
+                    alert("Error al eliminar el doctor departamento.");
                 }
             })
             .catch(error => console.error("Error:", error));
