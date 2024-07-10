@@ -1,6 +1,6 @@
 <?php
 require_once('../config/conexion.php');
-require_once('../models/doctor_departamento.model.php');  // Asegúrate de que la ruta es correcta
+require_once('../models/doctor_departamento.model.php');
 $doctor_departamento = new Clase_Doctor_Departamento();
 
 header('Content-Type: application/json');  // Asegúrate de que la respuesta sea JSON

@@ -2,10 +2,10 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Listado de Doctor-Departamento</title>
+    <title>Listado de Doctores y Departamentos</title>
 </head>
 <body>
-    <h1>Listado de Doctor-Departamento</h1>
+    <h1>Listado de Doctores y Departamentos</h1>
     <table border="1">
         <thead>
             <tr>
@@ -17,7 +17,6 @@
         </thead>
         <tbody>
             <?php
-            // Ajusta la ruta según la estructura de tu proyecto
             $path = realpath(dirname(__FILE__) . '/../../config/conexion.php');
             if (file_exists($path)) {
                 require_once($path);
@@ -27,14 +26,17 @@
 
             $con = new Clase_Conectar();
             $con = $con->Procedimiento_Conectar();
-            $query = "SELECT * FROM doctores_departamentos";
+            $query = "SELECT dd.id_doctor_departamento, doc.nombre_doctor, dep.nombre_departamento
+                      FROM doctores_departamentos dd
+                      JOIN doctores doc ON dd.id_doctor = doc.id_doctor
+                      JOIN departamentos dep ON dd.id_departamento = dep.id_departamento";
             $result = mysqli_query($con, $query);
             
             while ($fila = mysqli_fetch_assoc($result)) { ?>
                 <tr>
                     <td><?php echo $fila['id_doctor_departamento']; ?></td>
-                    <td><?php echo $fila['id_doctor']; ?></td>
-                    <td><?php echo $fila['id_departamento']; ?></td>
+                    <td><?php echo $fila['nombre_doctor']; ?></td>
+                    <td><?php echo $fila['nombre_departamento']; ?></td>
                     <td>
                         <button class="editDocDepa" data-id="<?php echo $fila['id_doctor_departamento']; ?>">Editar</button>
                         <button class="deleteDocDepa" data-id="<?php echo $fila['id_doctor_departamento']; ?>">Eliminar</button>
@@ -45,33 +47,26 @@
     </table>
 
     <h2>Formulario de Doctor-Departamento</h2>
-    <form id="DocDepaForm">
-        <label for="id_doctor">ID Doctor:</label>
+    <form id="docDepaForm">
+        <input type="hidden" id="id_doctor_departamento" name="id_doctor_departamento">
+        <label for="id_doctor">Doctor:</label>
         <select id="id_doctor" name="id_doctor" required>
             <?php
-            $queryDoctor = "SELECT id_doctor, nombre_doctor FROM doctores";
-            $resultDoctor = mysqli_query($con, $queryDoctor);
-            if (mysqli_num_rows($resultDoctor) > 0) {
-                while ($doctor = mysqli_fetch_assoc($resultDoctor)) {
-                    echo "<option value='{$doctor['id_doctor']}'>{$doctor['nombre_doctor']}</option>";
-                }
-            } else {
-                echo "<option value=''>No hay doctores disponibles</option>";
+            $queryDoctores = "SELECT id_doctor, nombre_doctor FROM doctores";
+            $resultDoctores = mysqli_query($con, $queryDoctores);
+            while ($doctor = mysqli_fetch_assoc($resultDoctores)) {
+                echo "<option value='{$doctor['id_doctor']}'>{$doctor['nombre_doctor']}</option>";
             }
             ?>
         </select>
         <br>
-        <label for="id_departamento">ID Departamento:</label>
+        <label for="id_departamento">Departamento:</label>
         <select id="id_departamento" name="id_departamento" required>
             <?php
             $queryDepartamentos = "SELECT id_departamento, nombre_departamento FROM departamentos";
             $resultDepartamentos = mysqli_query($con, $queryDepartamentos);
-            if (mysqli_num_rows($resultDepartamentos) > 0) {
-                while ($departamento = mysqli_fetch_assoc($resultDepartamentos)) {
-                    echo "<option value='{$departamento['id_departamento']}'>{$departamento['nombre_departamento']}</option>";
-                }
-            } else {
-                echo "<option value=''>No hay departamentos disponibles</option>";
+            while ($departamento = mysqli_fetch_assoc($resultDepartamentos)) {
+                echo "<option value='{$departamento['id_departamento']}'>{$departamento['nombre_departamento']}</option>";
             }
             ?>
         </select>
