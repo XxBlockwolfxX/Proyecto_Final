@@ -44,10 +44,17 @@ class Clase_Paciente {
 
     public function eliminar($id) {
         $cadena = "DELETE FROM pacientes WHERE id_paciente = $id";
-        if (mysqli_query($this->con, $cadena)) {
-            return "ok";
-        } else {
-            return $this->con->error;
+        try {
+            if (mysqli_query($this->con, $cadena)) {
+                return "ok";
+            } else {
+                throw new Exception($this->con->error);
+            }
+        } catch (Exception $e) {
+            if (strpos($e->getMessage(), 'a foreign key constraint fails') !== false) {
+                return "No se puede eliminar el paciente porque tiene citas asociadas.";
+            }
+            return "Error al eliminar el paciente: " . $e->getMessage();
         }
     }
 
